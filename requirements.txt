@@ -1,0 +1,5 @@
+flask
+pyChatGPT @ git+https://github.com/hesiod-au/pyChatGPT@main
+selenium-wire
+markdownify
+undetected-chromedriver
