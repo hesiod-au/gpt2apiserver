@@ -62,6 +62,31 @@ def send_message():
     return jsonify(resp)
 
 
+@app.route('v1/chat/completions', methods=['POST'])
+@require_api
+def chat_completion_message():
+    if request.json is None:
+        response = jsonify({'status': 'error', 'message': 'Missing request body'}), 400
+        current_app.logger.debug(f"Response: {response}")
+        return response
+
+    message = ""
+    messages = request.json.get('messages')
+    for msg in messages:
+        message = message + f"{msg.role}: " + msg.content + "\n\n"
+    id = request.json.get('id')
+    if not id:
+        id = "0"
+
+    if not message:
+        response = jsonify({'status': 'error', 'message': 'Missing required param'}), 400
+        current_app.logger.debug(f"Response: {response}")
+        return response
+
+    resp = api.send_message(message=message, id=id)
+    return jsonify(resp)
+
+
 @app.route('/reset_conversation', methods=['GET'])
 @require_api
 def reset_conversation():
