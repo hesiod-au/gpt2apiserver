@@ -9,7 +9,7 @@ token = os.environ.get('CHATGPT_TOKEN')
 app = Flask(__name__)
 
 global api
-api = ChatGPT(token)
+api = ChatGPT(token, model="4")
 
 
 def require_api(func):
@@ -62,7 +62,7 @@ def send_message():
     return jsonify(resp)
 
 
-@app.route('v1/chat/completions', methods=['POST'])
+@app.route('/v1/chat/completions', methods=['POST'])
 @require_api
 def chat_completion_message():
     if request.json is None:
